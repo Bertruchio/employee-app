@@ -1,0 +1,18 @@
+{
+  "name": "employee-app",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Веб-приложение «Список сотрудников»",
+  "workspaces": ["shared", "server", "client"],
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test":      "vitest run --workspace vitest.workspace.ts",
+    "test:watch":"vitest --workspace vitest.workspace.ts",
+    "build":     "npm run build --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "~7.0.2",
+    "vitest":     "^2.1.4"
+  }
+}
