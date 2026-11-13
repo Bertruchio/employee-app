@@ -8,9 +8,21 @@ export default defineConfig({
     },
   },
   test: {
-    name:        'server',
-    root:        './server',
+    name: 'server',
+    root: './server',
     environment: 'node',
-    include:     ['src/**/__tests__/**/*.test.ts'],
+    include: ['src/**/__tests__/**/*.test.ts'],
+    pool: 'forks',
+    poolOptions: {
+      forks: {
+        singleFork: true,
+      },
+    },
+    fileParallelism: false,
+    server: {
+      deps: {
+        external: ['better-sqlite3'],
+      },
+    },
   },
 });
