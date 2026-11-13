@@ -9,8 +9,10 @@ export interface ApiErrorResponse {
   fieldErrors?: Record<string, string>;
 }
 
-export interface ValidationResult<T> {
-  isValid: boolean;
-  data?: T;
-  errors?: Record<string, string>;
-}
+export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+
+export type FieldErrors = Record<string, string>;
+
+export type ValidationResult<T> =
+  | { isValid: true; data: T }
+  | { isValid: false; errors: FieldErrors };
