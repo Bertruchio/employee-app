@@ -1,0 +1,17 @@
+
+{
+
+  "compilerOptions": {
+
+    "baseUrl": "./dist",
+
+    "paths": {
+
+      "@shared/*": ["shared/src/*"]
+
+    }
+
+  }
+
+}
+
