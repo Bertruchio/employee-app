@@ -8,9 +8,10 @@ export default defineConfig({
     },
   },
   test: {
-    name:        'server',
-    root:        './server',
+    name: 'server',
+    root: './server',
     environment: 'node',
-    include:     ['src/**/__tests__/**/*.test.ts'],
+    include: ['src/**/__tests__/**/*.test.ts'],
+    fileParallelism: false,
   },
 });
