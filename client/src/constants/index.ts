@@ -1,3 +1,6 @@
+import { DEPARTMENTS } from '@shared/constants';
+import type { SelectOption } from '../types/ui.types';
+
 export const STORAGE_KEYS = Object.freeze({
   AUTH_TOKEN: 'employee_dir_token',
 } as const);
@@ -12,6 +15,10 @@ export const DEMO_CREDENTIALS = Object.freeze({
   email: 'demo@company.ru',
   password: 'Demo1234!',
 } as const);
+
+export const DEPARTMENT_OPTIONS: readonly SelectOption[] = Object.freeze(
+  DEPARTMENTS.map((dept) => Object.freeze({ value: dept, label: dept })),
+);
 
 export const UI_MESSAGES = Object.freeze({
   NETWORK_ERROR: 'Ошибка сети. Проверьте подключение к серверу.',

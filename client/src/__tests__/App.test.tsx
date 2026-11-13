@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import App from '../App';
@@ -68,11 +68,12 @@ describe('Application Flows', () => {
 
     await user.click(screen.getByRole('button', { name: /добавить сотрудника/i }));
 
-    await user.type(screen.getByLabelText(/фио/i), 'Новикова Елена Сергеевна');
-    await user.type(screen.getByLabelText(/должность/i), 'Системный аналитик');
-    await user.selectOptions(screen.getByLabelText(/отдел/i), 'Аналитика');
+    const dialog = screen.getByRole('dialog');
+    await user.type(within(dialog).getByLabelText(/фио/i), 'Новикова Елена Сергеевна');
+    await user.type(within(dialog).getByLabelText(/должность/i), 'Системный аналитик');
+    await user.selectOptions(within(dialog).getByLabelText(/отдел/i), 'Аналитика');
 
-    await user.click(screen.getByRole('button', { name: /сохранить/i }));
+    await user.click(within(dialog).getByRole('button', { name: /сохранить/i }));
 
     await waitFor(() => {
       expect(screen.getByText('Новикова Елена Сергеевна')).toBeInTheDocument();

@@ -5,13 +5,13 @@ import type { CreateEmployeeDto, Department, Employee } from '@shared/types/empl
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
-  isLoading?: boolean;
+  variant?: ButtonVariant | undefined;
+  isLoading?: boolean | undefined;
 }
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  error?: string;
+  error?: string | undefined;
 }
 
 export interface SelectOption {
@@ -22,21 +22,21 @@ export interface SelectOption {
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
   options: readonly SelectOption[];
-  placeholder?: string;
-  error?: string;
+  placeholder?: string | undefined;
+  error?: string | undefined;
 }
 
 export type AlertVariant = 'error' | 'success' | 'info';
 
 export interface AlertProps {
   message: string;
-  variant?: AlertVariant;
+  variant?: AlertVariant | undefined;
 }
 
 export interface RequestOptions {
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | undefined;
   body?: unknown;
-  signal?: AbortSignal;
+  signal?: AbortSignal | undefined;
 }
 
 export type DepartmentSelectValue = Department | '';
