@@ -1,0 +1,22 @@
+.directory-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.directory-page__content {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .directory-page__content {
+    padding: 16px;
+    gap: 16px;
+  }
+}
