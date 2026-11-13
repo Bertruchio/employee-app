@@ -8,13 +8,29 @@ import { authApi } from '../../services/auth.api';
 import { employeeApi } from '../../services/employee.api';
 import { DEMO_CREDENTIALS } from '../../constants';
 
+vi.mock('../../services/auth.api', () => ({
+  authApi: {
+    login: vi.fn(),
+    register: vi.fn(),
+    logout: vi.fn(),
+    me: vi.fn(),
+  },
+}));
+
+vi.mock('../../services/employee.api', () => ({
+  employeeApi: {
+    getAll: vi.fn(),
+    create: vi.fn(),
+  },
+}));
+
 describe('Custom Hooks', () => {
   beforeEach(() => {
-    vi.restoreAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useDebounce', () => {
-    it('delays value update', async () => {
+    it('delays value update', () => {
       vi.useFakeTimers();
       const { result, rerender } = renderHook(({ val }) => useDebounce(val, 300), {
         initialProps: { val: 'Иван' },
@@ -35,7 +51,7 @@ describe('Custom Hooks', () => {
   describe('useAuthForm', () => {
     it('fills demo credentials and submits login', async () => {
       const onSuccess = vi.fn();
-      const loginSpy = vi.spyOn(authApi, 'login').mockResolvedValue({
+      const loginMock = vi.mocked(authApi.login).mockResolvedValue({
         token: 'jwt-123',
         user: { id: 1, email: DEMO_CREDENTIALS.email, createdAt: '2026-01-01' },
       });
@@ -50,18 +66,26 @@ describe('Custom Hooks', () => {
       expect(result.current.password).toBe(DEMO_CREDENTIALS.password);
 
       await act(async () => {
-        await result.current.handleSubmit({ preventDefault: vi.fn() } as unknown as FormEvent<HTMLFormElement>);
+        await result.current.handleSubmit({
+          preventDefault: vi.fn(),
+        } as unknown as FormEvent<HTMLFormElement>);
       });
 
-      expect(loginSpy).toHaveBeenCalledWith(DEMO_CREDENTIALS);
+      expect(loginMock).toHaveBeenCalledWith(DEMO_CREDENTIALS);
       expect(onSuccess).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('useEmployees', () => {
     it('loads employees and resets filters', async () => {
-      const getAllSpy = vi.spyOn(employeeApi, 'getAll').mockResolvedValue([
-        { id: 1, fullName: 'Иванов Иван', position: 'Dev', department: 'Разработка', createdAt: '2026-01-01' },
+      const getAllMock = vi.mocked(employeeApi.getAll).mockResolvedValue([
+        {
+          id: 1,
+          fullName: 'Иванов Иван',
+          position: 'Dev',
+          department: 'Разработка',
+          createdAt: '2026-01-01',
+        },
       ]);
 
       const { result } = renderHook(() => useEmployees());
@@ -71,7 +95,7 @@ describe('Custom Hooks', () => {
       });
 
       expect(result.current.employees).toHaveLength(1);
-      expect(getAllSpy).toHaveBeenCalled();
+      expect(getAllMock).toHaveBeenCalled();
 
       act(() => {
         result.current.setDepartment('HR');
