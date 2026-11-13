@@ -5,13 +5,10 @@ import { errorMiddleware } from './middleware/error.middleware';
 import { seedDatabase }     from './db/seed';
 import db                  from './db/database';
 import { ENV }             from './config/env';
-
 const app = express();
 app.use(cors({ origin: ENV.CORS_ORIGIN, credentials: true }));
 app.use(express.json());
 app.use('/api', createRouter(db));
 app.use(errorMiddleware);
-
 if (ENV.NODE_ENV !== 'test') seedDatabase(db);
-
 export default app;

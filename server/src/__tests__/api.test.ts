@@ -6,22 +6,18 @@ import { applySchema } from '../db/database';
 import { seedDatabase } from '../db/seed';
 import { createRouter } from '../routes/index';
 import { errorMiddleware } from '../middleware/error.middleware';
-
 const testDb = new Database(':memory:');
 testDb.pragma('journal_mode = WAL');
 testDb.pragma('foreign_keys = ON');
 testDb.function('lower_utf8', (str: unknown) => (typeof str === 'string' ? str.toLowerCase() : ''));
 applySchema(testDb);
 seedDatabase(testDb);
-
 const app = express();
 app.use(express.json());
 app.use('/api', createRouter(testDb));
 app.use(errorMiddleware);
-
 const DEMO = { email: 'demo@company.ru', password: 'Demo1234!' };
 let authToken = '';
-
 describe('POST /api/auth/register', () => {
   it('registers a new user and returns token', async () => {
     const res = await request(app)
@@ -43,7 +39,6 @@ describe('POST /api/auth/register', () => {
     expect(res.body.fieldErrors).toBeDefined();
   });
 });
-
 describe('POST /api/auth/login', () => {
   it('logs in with demo credentials', async () => {
     const res = await request(app).post('/api/auth/login').send(DEMO);
@@ -65,7 +60,6 @@ describe('POST /api/auth/login', () => {
     expect(res.body.message).toBe('Неверный email или пароль');
   });
 });
-
 describe('GET /api/auth/me', () => {
   it('returns current user with valid token', async () => {
     const res = await request(app).get('/api/auth/me').set('Authorization', `Bearer ${authToken}`);
@@ -76,7 +70,6 @@ describe('GET /api/auth/me', () => {
     expect((await request(app).get('/api/auth/me')).status).toBe(401);
   });
 });
-
 describe('GET /api/employees', () => {
   it('returns 401 without token', async () => {
     expect((await request(app).get('/api/employees')).status).toBe(401);
@@ -112,7 +105,6 @@ describe('GET /api/employees', () => {
     expect(res.body.data).toHaveLength(0);
   });
 });
-
 describe('POST /api/employees', () => {
   it('returns 401 without token', async () => {
     expect(

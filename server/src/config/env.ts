@@ -1,5 +1,4 @@
 import path from 'path';
-
 const requireEnv = (key: string, fallback?: string): string => {
   const value = process.env[key] ?? fallback;
   if (value === undefined) {
@@ -7,7 +6,6 @@ const requireEnv = (key: string, fallback?: string): string => {
   }
   return value;
 };
-
 export const ENV = Object.freeze({
   PORT:        parseInt(process.env['PORT'] ?? '4000', 10),
   JWT_SECRET:  requireEnv('JWT_SECRET', 'dev_secret_change_in_production'),
