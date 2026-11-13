@@ -9,7 +9,6 @@ import { EmployeeController } from '../controllers/employee.controller';
 import { createAuthMiddleware }                        from '../middleware/auth.middleware';
 import { validateBody }                                from '../middleware/validate.middleware';
 import { validateAuthCredentials, validateCreateEmployee } from '@shared/validators';
-
 export const createRouter = (db: Database.Database): Router => {
   const router    = Router();
   const authSvc   = new AuthService(new UserRepository(db));
@@ -17,13 +16,11 @@ export const createRouter = (db: Database.Database): Router => {
   const authCtrl  = new AuthController(authSvc);
   const empCtrl   = new EmployeeController(empSvc);
   const requireAuth = createAuthMiddleware(authSvc);
-
   router.post('/auth/register', validateBody(validateAuthCredentials), authCtrl.register);
   router.post('/auth/login',    validateBody(validateAuthCredentials), authCtrl.login);
   router.get('/auth/me',        requireAuth, authCtrl.me);
   router.post('/auth/logout',   requireAuth, authCtrl.logout);
   router.get('/employees',      requireAuth, empCtrl.getAll);
   router.post('/employees',     requireAuth, validateBody(validateCreateEmployee), empCtrl.create);
-
   return router;
 };

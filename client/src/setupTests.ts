@@ -1,2 +1,1 @@
-// Глобальный setup для React Testing Library
-// Расширения матчеров добавим в Ticket #6 при написании тестов компонентов
+import '@testing-library/jest-dom';

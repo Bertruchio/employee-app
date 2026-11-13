@@ -3,12 +3,10 @@ export interface User {
   email: string;
   createdAt: string;
 }
-
 export interface AuthCredentialsDto {
   email: string;
   password: string;
 }
-
 export interface AuthResponseDto {
   user: User;
   token: string;

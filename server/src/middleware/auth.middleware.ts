@@ -1,12 +1,10 @@
 import type { Request, Response, NextFunction } from 'express';
 import { AuthService } from '../services/auth.service';
-
 declare global {
   namespace Express {
     interface Request { userId?: number; userEmail?: string; }
   }
 }
-
 export const createAuthMiddleware = (authService: AuthService) =>
   (req: Request, res: Response, next: NextFunction): void => {
     const header = req.headers['authorization'];

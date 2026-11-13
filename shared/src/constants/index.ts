@@ -6,7 +6,6 @@ export const DEPARTMENTS = Object.freeze([
   'HR',
   'Менеджмент'
 ] as const);
-
 export const VALIDATION_RULES = Object.freeze({
   PASSWORD_MIN_LENGTH: 6,
   PASSWORD_MAX_BYTES: 72,
@@ -15,7 +14,6 @@ export const VALIDATION_RULES = Object.freeze({
   POSITION_MIN_LENGTH: 2,
   POSITION_MAX_LENGTH: 100,
 } as const);
-
 export const API_ENDPOINTS = Object.freeze({
   AUTH: {
     REGISTER: '/api/auth/register',
@@ -27,9 +25,7 @@ export const API_ENDPOINTS = Object.freeze({
     BASE: '/api/employees',
   }
 } as const);
-
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 export const VALIDATION_MESSAGES = Object.freeze({
   REQUIRED: 'Обязательное поле',
   INVALID_EMAIL: 'Некорректный формат email',

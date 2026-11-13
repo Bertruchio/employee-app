@@ -4,7 +4,6 @@ import type { User, AuthCredentialsDto, AuthResponseDto } from '@shared/types/au
 import { UserRepository } from '../repositories/user.repository';
 import { SERVER_CONSTANTS } from '../config/constants';
 import { ENV } from '../config/env';
-
 export class AppError extends Error {
   constructor(
     public readonly statusCode: number,
@@ -15,12 +14,9 @@ export class AppError extends Error {
     this.name = 'AppError';
   }
 }
-
 interface JwtPayload { userId: number; email: string; }
-
 export class AuthService {
   constructor(private readonly userRepo: UserRepository) {}
-
   async register(dto: AuthCredentialsDto): Promise<AuthResponseDto> {
     if (this.userRepo.findByEmail(dto.email)) {
       throw new AppError(409, 'Пользователь с таким email уже существует');
@@ -29,7 +25,6 @@ export class AuthService {
     const user = this.userRepo.create(dto.email, passwordHash);
     return { token: this.signToken(user), user };
   }
-
   async login(dto: AuthCredentialsDto): Promise<AuthResponseDto> {
     const INVALID = 'Неверный email или пароль';
     const found   = this.userRepo.findByEmail(dto.email);
@@ -39,7 +34,6 @@ export class AuthService {
     const { passwordHash: _, ...user } = found;
     return { token: this.signToken(user), user };
   }
-
   verifyToken(token: string): User {
     try {
       const payload = jwt.verify(token, ENV.JWT_SECRET) as JwtPayload;
@@ -50,7 +44,6 @@ export class AuthService {
       throw new AppError(401, 'Недействительный токен');
     }
   }
-
   private signToken(user: User): string {
     return jwt.sign(
       { userId: user.id, email: user.email } satisfies JwtPayload,

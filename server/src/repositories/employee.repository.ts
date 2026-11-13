@@ -4,7 +4,6 @@ import type {
   EmployeeFilterParams,
   CreateEmployeeDto,
 } from '@shared/types/employee.types';
-
 interface EmployeeRow {
   id: number;
   full_name: string;
@@ -12,7 +11,6 @@ interface EmployeeRow {
   department: string;
   created_at: string;
 }
-
 const toEmployee = (row: EmployeeRow): Employee => ({
   id: row.id,
   fullName: row.full_name,
@@ -20,18 +18,12 @@ const toEmployee = (row: EmployeeRow): Employee => ({
   department: row.department as Employee['department'],
   createdAt: row.created_at,
 });
-
 export class EmployeeRepository {
   constructor(private readonly db: Database.Database) {}
-
   findAll(filter: EmployeeFilterParams = {}): Employee[] {
-    // 1. Приводим поиск к нижнему регистру прямо в TS
     const search = filter.search?.trim().toLowerCase() ?? '';
     const department = filter.department ?? '';
-
-    // 2. Заранее формируем паттерн для LIKE
     const searchPattern = search ? '%' + search + '%' : '';
-
     const rows = this.db
       .prepare(
         `
@@ -42,12 +34,9 @@ export class EmployeeRepository {
       ORDER BY created_at DESC
     `,
       )
-      // 3. Передаем чистые переменные без конкатенации в параметрах
       .all(search, searchPattern, department, department) as EmployeeRow[];
-
     return rows.map(toEmployee);
   }
-
   create(dto: CreateEmployeeDto): Employee {
     const result = this.db
       .prepare('INSERT INTO employees (full_name, position, department) VALUES (?, ?, ?)')

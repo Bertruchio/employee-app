@@ -2,10 +2,11 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "module":           "CommonJS",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
+    "declaration":      false,
+    "declarationMap":   false,
     "outDir":           "dist",
-    "rootDir":          "src",
-    "baseUrl":          ".",
+    "rootDir":          "..",
     "paths": {
       "@shared/*": ["../shared/src/*"]
     }
