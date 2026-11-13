@@ -13,3 +13,10 @@
   flex-direction: column;
   gap: 20px;
 }
+
+@media (max-width: 640px) {
+  .directory-page__content {
+    padding: 16px;
+    gap: 16px;
+  }
+}

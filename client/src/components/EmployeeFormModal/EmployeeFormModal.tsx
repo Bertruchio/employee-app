@@ -1,3 +1,4 @@
+import { VALIDATION_RULES } from '@shared/constants';
 import { DEPARTMENT_OPTIONS } from '../../constants';
 import type { DepartmentSelectValue, EmployeeFormModalProps } from '../../types/ui.types';
 import { Alert } from '../ui/Alert/Alert';
@@ -56,6 +57,7 @@ export const EmployeeFormModal = ({
           <Input
             label="ФИО"
             placeholder="Иванов Иван Иванович"
+            maxLength={VALIDATION_RULES.FULL_NAME_MAX_LENGTH}
             value={fullName}
             onChange={(e) => onFullNameChange(e.target.value)}
             error={fieldErrors.fullName}
@@ -67,6 +69,7 @@ export const EmployeeFormModal = ({
           <Input
             label="Должность"
             placeholder="Frontend Разработчик"
+            maxLength={VALIDATION_RULES.POSITION_MAX_LENGTH}
             value={position}
             onChange={(e) => onPositionChange(e.target.value)}
             error={fieldErrors.position}
