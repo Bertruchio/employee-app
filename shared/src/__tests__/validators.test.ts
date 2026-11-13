@@ -16,14 +16,16 @@ describe('Validators', () => {
     it('should validate correct credentials and trim email, lowercase it', () => {
       const res = validateAuthCredentials({ email: ' Test@Mail.ru ', password: 'password123' });
       expect(res.isValid).toBe(true);
-      expect(res.data?.email).toBe('test@mail.ru');
-      expect(res.data?.password).toBe('password123'); // пароль не тримится
+      if (!res.isValid) return;
+      expect(res.data.email).toBe('test@mail.ru');
+      expect(res.data.password).toBe('password123');
     });
 
     it('should fail on invalid email', () => {
       const res = validateAuthCredentials({ email: 'test.ru', password: 'password123' });
       expect(res.isValid).toBe(false);
-      expect(res.errors?.email).toBe(VALIDATION_MESSAGES.INVALID_EMAIL);
+      if (res.isValid) return;
+      expect(res.errors.email).toBe(VALIDATION_MESSAGES.INVALID_EMAIL);
     });
   });
 
@@ -35,7 +37,8 @@ describe('Validators', () => {
         department: 'Разработка'
       });
       expect(res.isValid).toBe(true);
-      expect(res.data?.fullName).toBe('Иванов Иван');
+      if (!res.isValid) return;
+      expect(res.data.fullName).toBe('Иванов Иван');
     });
 
     it('should fail on invalid department', () => {
@@ -45,7 +48,8 @@ describe('Validators', () => {
         department: 'Несуществующий'
       });
       expect(res.isValid).toBe(false);
-      expect(res.errors?.department).toBe(VALIDATION_MESSAGES.INVALID_DEPARTMENT);
+      if (res.isValid) return;
+      expect(res.errors.department).toBe(VALIDATION_MESSAGES.INVALID_DEPARTMENT);
     });
   });
 });

@@ -1,11 +1,17 @@
-import app     from './app';
+import app from './app';
+import db from './db/database';
 import { ENV } from './config/env';
-import db      from './db/database';
 
 const server = app.listen(ENV.PORT, () => {
-  console.log(\`Server running on http://localhost:\${ENV.PORT}\`);
+  console.log(`Server running on http://localhost:${ENV.PORT}`);
 });
 
-const shutdown = (): void => { server.close(() => { db.close(); process.exit(0); }); };
+const shutdown = () => {
+  server.close(() => {
+    db.close();
+    process.exit(0);
+  });
+};
+
+process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
-process.on('SIGINT',  shutdown);

@@ -2,7 +2,7 @@ import express             from 'express';
 import cors                from 'cors';
 import { createRouter }    from './routes/index';
 import { errorMiddleware } from './middleware/error.middleware';
-import { seedIfEmpty }     from './db/seed';
+import { seedDatabase }     from './db/seed';
 import db                  from './db/database';
 import { ENV }             from './config/env';
 
@@ -12,6 +12,6 @@ app.use(express.json());
 app.use('/api', createRouter(db));
 app.use(errorMiddleware);
 
-if (ENV.NODE_ENV !== 'test') seedIfEmpty(db);
+if (ENV.NODE_ENV !== 'test') seedDatabase(db);
 
 export default app;

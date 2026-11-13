@@ -14,7 +14,7 @@ export class EmployeeController {
   };
 
   create = (req: Request, res: Response, next: NextFunction): void => {
-    try { res.status(201).json({ success: true, data: this.employeeService.create(req.body as { fullName: string; position: string; department: string }) }); }
+    try { res.status(201).json({ success: true, data: this.employeeService.create(req.body as any) }); }
     catch (err) { next(err); }
   };
 }
